@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShoesShop - Cửa hàng giày thời trang</title>
+    <style>
+       * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #ff6b6b;
+    --secondary-color: #4ecdc4;
+    --accent-color: #45b7d1;
+    --dark-color: #2c3e50;
+    --light-color: #ecf0f1;
+    --text-color: #2c3e50;
+    --text-light: #7f8c8d;
+    --white: #ffffff;
+    --black: #000000;
+    --success-color: #27ae60;
+    --warning-color: #f39c12;
+    --error-color: #e74c3c;
+    --shadow: 0 2px 10px rgba(0,0,0,0.1);
+    --shadow-hover: 0 10px 30px rgba(0,0,0,0.15);
+    --shadow-large: 0 20px 60px rgba(0,0,0,0.1);
+    --border-radius: 12px;
+    --border-radius-small: 8px;
+    --border-radius-large: 20px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.2s ease;
+    --transition-slow: all 0.5s ease;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+} 
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header Styles */
+.header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    transition: var(--transition);
+}
+
+.header.scrolled {
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: var(--shadow-hover);
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+.logo i {
+    margin-right: 10px;
+    font-size: 2rem;
+    background: linear-gradient(135deg, var(--primary-color), #ff5252);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Navigation */
+.nav-list {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: var(--transition);
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 0;
+}
+
+.nav-link:hover {
+    color: var(--primary-color);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-color), #ff5252);
+    transition: var(--transition);
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Dropdown Menu */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--white);
+    min-width: 220px;
+    box-shadow: var(--shadow-large);
+    border-radius: var(--border-radius);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: var(--transition);
+    z-index: 1000;
+    border: 1px solid var(--light-color);
+}
+
+.dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-item {
+    display: block;
+    padding: 12px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: var(--transition);
+    border-bottom: 1px solid var(--light-color);
+    font-size: 0.9rem;
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.dropdown-item:hover {
+    background: var(--light-color);
+    color: var(--primary-color);
+    padding-left: 25px;
+}
+
+.dropdown-item i {
+    margin-right: 8px;
+    width: 16px;
+    color: var(--primary-color);
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: var(--light-color);
+    margin: 5px 0;
+}
+
+/* Header Actions */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: var(--light-color);
+    border-radius: 25px;
+    padding: 8px 15px;
+    transition: var(--transition);
+    border: 2px solid transparent;
+}
+
+.search-box:focus-within {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+}
+
+.search-box input {
+    border: none;
+    background: transparent;
+    outline: none;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    width: 200px;
+    color: var(--text-color);
+}
+
+.search-box input::placeholder {
+    color: var(--text-light);
+}
+
+.search-btn {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: var(--transition);
+    padding: 5px;
+    border-radius: 50%;
+}
+
+.search-btn:hover {
+    color: var(--primary-color);
+    background: rgba(255, 107, 107, 0.1);
+}
+
+/* Header Icons */
+.header-icons {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.icon-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: var(--transition);
+    padding: 8px;
+    border-radius: var(--border-radius);
+}
+
+.icon-item:hover {
+    background: var(--light-color);
+    color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.icon-item i {
+    font-size: 1.3rem;
+    margin-bottom: 2px;
+}
+
+.icon-text {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.icon-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--primary-color);
+    color: var(--white);
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* User Dropdown */
+.user-icon {
+    position: relative;
+}
+
+.user-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--white);
+    min-width: 220px;
+    box-shadow: var(--shadow-large);
+    border-radius: var(--border-radius);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: var(--transition);
+    z-index: 1000;
+    margin-top: 4px;
+    border: 1px solid var(--light-color);
+}
+
+.user-icon:hover .user-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+/* Mobile Menu */
+.mobile-menu-btn {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 4px;
+    padding: 5px;
+}
+
+.mobile-menu-btn span {
+    width: 25px;
+    height: 3px;
+    background: var(--text-color);
+    transition: var(--transition);
+    border-radius: 2px;
+}
+
+.mobile-menu-btn.active span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.mobile-menu-btn.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-btn.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+}
+@media (max-width: 768px) {
+    .header .container {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .nav-list {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--white);
+        flex-direction: column;
+        padding: 1rem;
+        box-shadow: var(--shadow);
+        border-radius: 0 0 var(--border-radius) var(--border-radius);
+    }
+    
+    .nav-list.active {
+        display: flex;
+    }
+    
+    .mobile-menu-btn {
+        display: flex;
+    }
+    
+    .header-actions {
+        order: -1;
+        flex: 1;
+        justify-content: space-between;
+    }
+    
+    .search-box {
+        flex: 1;
+        max-width: 200px;
+    }
+    
+    .search-box input {
+        width: 100%;
+    }
+}
+@media (max-width: 1024px) {
+    .header-actions {
+        gap: 1rem;
+    }
+    
+    .search-box input {
+        width: 150px;
+    }
+}
+       .cach {
+        height: 80px;
+        width: 100%;
+       }
+
+
+        #Dangky {
+        display: none;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(https://thumb.photo-ac.com/95/95b4879b84d367d57d6b9700e060eb16_t.jpeg);
+        width: 100%;
+        height: 789px; 
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        padding: 100px;
+        }
+       .container2 {
+        background-color: rgba(0, 0, 0, 0.87);
+        padding: 60px;
+        width: 400px;
+        height: 600px;
+        margin: auto;
+        border-radius: 5px;
+       } 
+       .h1 {
+        color: rgb(255, 255, 255);
+        font-family: Arial, Helvetica, sans-serif;
+       }
+       .form1 {
+        display: flex;
+        flex-direction: column;
+       }
+       .ip1 {
+        margin-top: 20px;
+        height: 15px;
+        padding: 20px;
+        border: 0px;
+        color: #ff8f70ed;
+        background-color: rgba(108, 108, 108, 0.3);
+        border-radius: 5px;
+       }
+       .bt1 {
+        border: 0px;
+        margin-top: 50px;
+        border-radius: 5px;
+        height: 50px;
+        background-color: rgb(243, 98, 45);
+        color: rgb(255, 255, 255);
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 10px;
+       }
+       .div1 {
+        display: flex;
+        margin-top: 60px;
+        justify-content: center;
+       }
+       #ntmc {
+        color: rgba(255, 255, 255, 0.6);
+        font-family: Arial, Helvetica, sans-serif;
+       }
+       .sun {
+        text-decoration: none;
+        color: rgba(255, 255, 255);
+        font-family: Arial, Helvetica, sans-serif;
+        border: 0;
+        background-color: #000000;
+       }
+       
+       .container3 {
+        background-color: rgba(0, 0, 0, 0.87);
+        padding: 60px;
+        width: 400px;
+        height: 530px;
+        margin: auto;
+        border-radius: 5px;
+       } 
+       #Dangnhap {
+        display: block;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(https://thumb.photo-ac.com/95/95b4879b84d367d57d6b9700e060eb16_t.jpeg);
+        width: 100%;
+        height: 789px; 
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        padding: 100px;
+        }
+        #TAIKHOAN {
+        text-decoration: none;
+        color: #1c1919;
+        }
+        #TAIKHOAN:hover {
+        color: var(--primary-color);
+        }
+        .thong_bao {
+            display: block;
+            margin: 0px;
+            color: rgba(255, 0, 0, 0.85);
+            font-size: 13px;
+        }
+        #cartIcon {
+  text-decoration: none;
+  color: #000;
+}
+
+
+
+.nav-den {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0,0,0,0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+  z-index: 999; /* nằm dưới menu */
+}
+
+.nav-den.active {
+  opacity: 1;
+  visibility: visible;
+}
+    </style>
+</head>
+<body>
+    <div class="cach"></div>
+        <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a class="logo" href="TRANGCHU.html">
+                <i class="fas fa-shoe-prints"></i>
+                <span>ShoesShop</span>
+            </a>
+            <nav class="nav">
+                <ul class="nav-list" id="navList">
+                    <li><a href="TRANGCHU.html" class="nav-link">Trang chủ</a></li>
+                    <li class="dropdown">
+                        <a href="SANPHAM.html" class="nav-link">Sản phẩm <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item" data-category="sneakers">Giày thể thao</a>
+                            <a href="#" class="dropdown-item" data-category="boots">Giày boots</a>
+                            <a href="#" class="dropdown-item" data-category="formal">Giày tây</a>
+                            <a href="#" class="dropdown-item" data-category="heels">Giày cao gót</a>
+                        </div>
+                    </li>
+                    <li><a href="TRANGCHU.html" class="nav-link">Giới thiệu</a></li>
+                    <li><a href="TRANGCHU.html" class="nav-link">Liên hệ</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <div class="search-box">
+                    <input type="text" placeholder="Tìm kiếm sản phẩm..." id="searchInput">
+                    <button class="search-btn" id="searchBtn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="header-icons">
+                    
+                    <a href="GIOHANG.html" class="icon-item cart-icon" id="cartIcon">
+                        <i class="fas fa-shopping-cart"></i>
+
+                        <span class="icon-text">Giỏ hàng</span>
+                    </a>
+                    <div class="icon-item user-icon" id="userIcon">
+                        <i class="fas fa-user"></i>
+                        <a class="icon-text" id="TAIKHOAN" href="TAIKHOAN.html">Tài khoản</a>
+
+                    </div>
+                </div>
+                <div class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+        <!--Header-->
+    
+        <!--Đăng ký-->
+    <div id="Dangky">
+    <div class="container2">
+        <h1 class="h1" id="h1_login">Đăng Ký</h1>
+        <form class="form1" id="form_dk" onsubmit="check1(event)">
+        <input type="text" class="ip1" id="ip1" placeholder="Tên">
+        <div class="thong_bao" id="thong_bao1"></div>
+        
+        <input type="password" class="ip1" id="ip2" placeholder="Mật Khẩu">
+        <div class="thong_bao" id="thong_bao3"></div>
+        <input type="password" class="ip1" id="ip4" placeholder="Xác Nhận Mật Khẩu">
+        <div class="thong_bao" id="thong_bao4"></div>
+        <button type="submit" class="bt1" id="bt_dk" onclick="check1(event)">Đăng Ký</button>
+        </form>
+        <div class="div1">
+        <div id="ntmc">Bạn đã có tài khoản?</div>
+        <button class="sun" id="thay_doi" onclick="taikhoan1()">Đăng nhập</button>
+        </div>
+    </div>
+    </div>
+    <!--Đăng ký-->
+    <!--ĐĂNG nhập-->
+    <div id="Dangnhap">
+    <div class="container3">
+        <h1 class="h1" id="h2_login">Đăng Nhập</h1>
+        <form class="form1" id="form_dn" onsubmit="check2(event)">
+        <input type="text" class="ip1" id="ip5" placeholder="Tên">
+        <div class="thong_bao" id="thong_bao5"></div>
+        
+        <input type="password" class="ip1" id="ip7" placeholder="Mật Khẩu">
+        <div class="thong_bao" id="thong_bao7"></div>
+        <button type="submit"   class="bt1" id="bt_dn">Đăng Nhập</button>
+        </form>
+        <div class="div1">
+        <div id="ntmc">Bạn chưa có tài khoản?</div>
+        <button class="sun" id="thay_doi" onclick="taikhoan2()">Đăng ký</button>
+        </div>
+    </div>
+    </div>
+
+    <div class="nav-den" id="nen-den"></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+  const mobileMenuBtn = document.getElementById("mobileMenuBtn")
+  const navList = document.getElementById("navList")
+  const navLinks = document.querySelectorAll(".nav-link, .dropdown-item")
+  const nenDen = document.getElementById("nen-den")
+
+  // Toggle menu
+  mobileMenuBtn.addEventListener("click", () => {
+    navList.classList.toggle("active")
+    mobileMenuBtn.classList.toggle("active")
+    nenDen.classList.toggle("active")  // bật/tắt nền đen
+  })
+
+  // Khi chọn link => đóng menu + tắt nền
+  navLinks.forEach(link => {
+    link.addEventListener("click", () => {
+      navList.classList.remove("active")
+      mobileMenuBtn.classList.remove("active")
+      nenDen.classList.remove("active")
+    })
+  })
+
+  // Khi click nền đen => đóng menu
+  nenDen.addEventListener("click", () => {
+    navList.classList.remove("active")
+    mobileMenuBtn.classList.remove("active")
+    nenDen.classList.remove("active")
+  })
+})
+    </script>
+    <script src="TAIKHOAN.js"></script>
+</body>
+</html>

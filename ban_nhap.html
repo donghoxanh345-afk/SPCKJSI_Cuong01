@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<div class="filters">
+<button id="btn-tatca" onclick="check1_tatca()">Tất cả</button>
+<button id="btn-sneakers" onclick="check2_sneakers()">Sneakers</button>
+<button id="btn-boots" onclick="check3_boots()">Boots</button>
+<button id="btn-giaytay" onclick="check4_giay_tay()">Giày tây</button>
+</div>
+
+
+    <script>
+
+  ///////////////////////////
+ ` const express = require('express');
+const SneaksAPI = require('sneaks-api');
+const cors = require('cors');
+const app = express();
+
+app.use(cors());
+const sneaks = new SneaksAPI();
+
+app.get('/api/sneakers', (req, res) => {
+  const brands = ["Nike"]; // Thêm hãng tùy ý
+  const limit = 6;
+
+  const brandPromises = brands.map(brand => {
+    return new Promise((resolve, reject) => {
+      sneaks.getProducts(brand, limit, (err, products) => {
+        if (err) return reject(err);
+        resolve(products);
+      });
+    });
+  });
+
+  Promise.all(brandPromises)
+    .then(results => {
+      const allProducts = results.flat(); // Gộp tất cả sản phẩm thành một mảng
+      res.json(allProducts);
+    })
+    .catch(error => {
+      res.status(500).json({ error: "Lỗi gọi API", details: error.message });
+    });
+});
+
+app.listen(3001, () => {
+  console.log("✅ Backend chạy tại http://localhost:3001");
+});`
+///////////////////////////////////  
+
+    </script>
+</body>
+</html>
